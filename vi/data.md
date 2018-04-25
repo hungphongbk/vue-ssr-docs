@@ -2,13 +2,13 @@
 
 ## Lưu trữ dữ liệu
 
-During SSR, we are essentially rendering a "snapshot" of our app, so if the app relies on some asynchronous data, **these data need to be pre-fetched and resolved before we start the rendering process**.
+During SSR, we are essentially rendering a "snapshot" of our app, so if the app relies on some asynchronous data, **these data need to be pre-fetched và resolved before we start the rendering process**.
 
-Another concern is that on the client, the same data needs to be available before we mount the client side app - otherwise the client app would render using different state and the hydration would fail.
+Another concern is that on the client, the same data needs to be available before we mount the client side app - otherwise the client app would render using different state và the hydration would fail.
 
-To address this, the fetched data needs to live outside the view components, in a dedicated data store, or a "state container". On the server, we can pre-fetch and fill data into the store before rendering. In addition, we will serialize and inline the state in the HTML. The client-side store can directly pick up the inlined state before we mount the app.
+To address this, the fetched data needs to live outside the view components, in a dedicated data store, or a "state container". On the server, we can pre-fetch và fill data into the store before rendering. In addition, we will serialize và inline the state in the HTML. The client-side store can directly pick up the inlined state before we mount the app.
 
-We will be using the official state management library [Vuex](https://github.com/vuejs/vuex/) for this purpose. Let's create a `store.js` file, with some mocked logic for fetching an item based on an id:
+We will be using the official state management library [Vuex](https://github.com/vuejs/vuex/) for this purpose. Let's Tạo một `store.js` file, with some mocked logic for fetching an item based on an id:
 
 ``` js
 // store.js
@@ -18,7 +18,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 // Assume we have a universal API that returns Promises
-// and ignore the implementation details
+// và ignore the implementation details
 import { fetchItem } from './api'
 
 export function createStore () {
@@ -43,8 +43,7 @@ export function createStore () {
   })
 }
 ```
-
-And update `app.js`:
+ và update `app.js`:
 
 ``` js
 // app.js
@@ -55,21 +54,21 @@ import { createStore } from './store'
 import { sync } from 'vuex-router-sync'
 
 export function createApp () {
-  // create router and store instances
+  // create router và store instances
   const router = createRouter()
   const store = createStore()
 
   // sync so that route state is available as part of the store
   sync(store, router)
 
-  // create the app instance, injecting both the router and the store
+  // create the app instance, injecting both the router và the store
   const app = new Vue({
     router,
     store,
     render: h => h(App)
   })
 
-  // expose the app, the router and the store.
+  // expose the app, the router và the store.
   return { app, router, store }
 }
 ```
@@ -80,7 +79,7 @@ So, where do we place the code that dispatches the data-fetching actions?
 
 The data we need to fetch is determined by the route visited - which also determines what components are rendered. In fact, the data needed for a given route is also the data needed by the components rendered at that route. So it would be natural to place the data fetching logic inside route components.
 
-We will expose a custom static function `asyncData` on our route components. Note because this function will be called before the components are instantiated, it doesn't have access to `this`. The store and route information needs to be passed in as arguments:
+We will expose a custom static function `asyncData` on our route components. Note because this function will be called before the components are instantiated, it doesn't have access to `this`. The store và route information needs to be passed in as arguments:
 
 ``` html
 <!-- Item.vue -->
@@ -107,7 +106,7 @@ export default {
 
 ## Tải dữ liệu phía Server
 
-In `entry-server.js` we can get the components matched by a route with `router.getMatchedComponents()`, and call `asyncData` if the component exposes it. Then we need to attach resolved state to the render context.
+In `entry-server.js` we can get the components matched by a route with `router.getMatchedComponents()`, và call `asyncData` if the component exposes it. Then we need to attach resolved state to the render context.
 
 ``` js
 // entry-server.js
@@ -136,9 +135,9 @@ export default context => {
       })).then(() => {
         // After all preFetch hooks are resolved, our store is now
         // filled with the state needed to render the app.
-        // When we attach the state to the context, and the `template` option
+        // When we attach the state to the context, và the `template` option
         // is used for the renderer, the state will automatically be
-        // serialized and injected into the HTML as `window.__INITIAL_STATE__`.
+        // serialized và injected into the HTML as `window.__INITIAL_STATE__`.
         context.state = store.state
 
         resolve(app)
@@ -168,7 +167,7 @@ On the client, there are two different approaches for handling data fetching:
 
   With this strategy, the app will stay on the current view until the data needed by the incoming view has been resolved. The benefit is that the incoming view can directly render the full content when it's ready, but if the data fetching takes a long time, the user will feel "stuck" on the current view. It is therefore recommended to provide a data loading indicator if using this strategy.
 
-  We can implement this strategy on the client by checking matched components and invoking their `asyncData` function inside a global route hook. Note we should register this hook after the initial route is ready so that we don't unnecessarily fetch the server-fetched data again.
+  We can implement this strategy on the client by checking matched components và invoking their `asyncData` function inside a global route hook. Note we should register this hook after the initial route is ready so that we don't unnecessarily fetch the server-fetched data again.
 
   ``` js
   // entry-client.js
@@ -236,7 +235,7 @@ On the client, there are two different approaches for handling data fetching:
   })
   ```
 
-The two strategies are ultimately different UX decisions and should be picked based on the actual scenario of the app you are building. But regardless of which strategy you pick, the `asyncData` function should also be called when a route component is reused (same route, but params or query changed. e.g. from `user/1` to `user/2`). We can also handle this with a client-only global mixin:
+The two strategies are ultimately different UX decisions và should be picked based on the actual scenario of the app you are building. But regardless of which strategy you pick, the `asyncData` function should also be called when a route component is reused (same route, but params or query changed. e.g. from `user/1` to `user/2`). We can also handle this with a client-only global mixin:
 
 ``` js
 Vue.mixin({
@@ -313,4 +312,4 @@ Because the module is now a dependency of the route component, it will be moved 
 
 ---
 
-Phew, that was a lot of code! This is because universal data-fetching is probably the most complex problem in a server-rendered app and we are laying the groundwork for easier further development. Once the boilerplate is set up, authoring individual components will be actually quite pleasant.
+Phew, that was a lot of code! This is because universal data-fetching is probably the most complex problem in a server-rendered app và we are laying the groundwork for easier further development. Once the boilerplate is set up, authoring individual components will be actually quite pleasant.

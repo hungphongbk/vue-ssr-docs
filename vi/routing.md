@@ -2,9 +2,9 @@
 
 ## Routing với `vue-router`
 
-You may have noticed that our server code uses a `*` handler which accepts arbitrary URLs. This allows us to pass the visited URL into our Vue app, and reuse the same routing config for both client and server!
+You may have noticed that our server code uses a `*` handler which accepts arbitrary URLs. This allows us to pass the visited URL into our Vue app, và reuse the same routing config for both client và server!
 
-It is recommended to use the official `vue-router` for this purpose. Let's first create a file where we create the router. Note similar to `createApp`, we also need a fresh router instance for each request, so the file exports a `createRouter` function:
+It is recommended to use the official `vue-router` for this purpose. Let's first Tạo một file where we create the router. Note similar to `createApp`, we also need a fresh router instance for each request, so the file exports a `createRouter` function:
 
 ``` js
 // router.js
@@ -22,8 +22,7 @@ export function createRouter () {
   })
 }
 ```
-
-And update `app.js`:
+ và update `app.js`:
 
 ``` js
 // app.js
@@ -36,12 +35,12 @@ export function createApp () {
   const router = createRouter()
 
   const app = new Vue({
-    // inject router into root Vue instance
+    // inject router into root đối tượng Vue
     router,
     render: h => h(App)
   })
 
-  // return both the app and the router
+  // return both the app và the router
   return { app, router }
 }
 ```
@@ -62,7 +61,7 @@ export default context => {
     // set server-side router's location
     router.push(context.url)
 
-    // wait until router has resolved possible async components and hooks
+    // wait until router has resolved possible async components và hooks
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
       // no matched routes, reject with 404
@@ -104,7 +103,7 @@ server.get('*', (req, res) => {
 
 ## Phân tách mã nguồn
 
-Code-splitting, or lazy-loading part of your app, helps reducing the amount of assets that need to be downloaded by the browser for the initial render, and can greatly improve TTI (time-to-interactive) for apps with large bundles. The key is "loading just what is needed" for the initial screen.
+Code-splitting, or lazy-loading part of your app, helps reducing the amount of assets that need to be downloaded by the browser for the initial render, và can greatly improve TTI (time-to-interactive) for apps with large bundles. The key is "loading just what is needed" for the initial screen.
 
 Vue provides async components as a first-class concept, combining it with [webpack 2's support for using dynamic import as a code-split point](https://webpack.js.org/guides/code-splitting-async/), all you need to do is:
 
@@ -118,7 +117,7 @@ const Foo = () => import('./Foo.vue')
 
 Prior to Vue 2.5, this only worked for route-level components. However, with improvements to the core hydration algorithm in 2.5+, this now works seamlessly anywhere in your app.
 
-Note that it is still necessary to use `router.onReady` on both server and client before returning / mounting the app, because the router must resolve async route components ahead of time in order to properly invoke in-component hooks. We already did that in our server entry, and now we just need to update the client entry:
+Note that it is still necessary to use `router.onReady` on both server và client before returning / mounting the app, because the router must resolve async route components ahead of time in order to properly invoke in-component hooks. We already did that in our server entry, và now we just need to update the client entry:
 
 ``` js
 // entry-client.js

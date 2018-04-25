@@ -8,17 +8,17 @@ The recommended way to manage CSS is to simply use `<style>` inside `*.vue` sing
 
 More importantly, `vue-style-loader`, the loader used internally by `vue-loader`, has some special features for server rendering:
 
-- Universal authoring experience for client and server.
+- Universal authoring experience for client và server.
 
 - Automatic critical CSS when using `bundleRenderer`.
 
-  If used during a server render, a component's CSS can be collected and inlined in the HTML (automatically handled when using `template` option). On the client, when the component is used for the first time, `vue-style-loader` will check if there is already server-inlined CSS for this component - if not, the CSS will be dynamically injected via a `<style>` tag.
+  If used during a server render, a component's CSS can be collected và inlined in the HTML (automatically handled when using `template` option). On the client, when the component is used for the first time, `vue-style-loader` will check if there is already server-inlined CSS for this component - if not, the CSS will be dynamically injected via a `<style>` tag.
 
 - Common CSS Extraction.
 
   This setup support using [`extract-text-webpack-plugin`](https://github.com/webpack-contrib/extract-text-webpack-plugin) to extract the CSS in the main chunk into a separate CSS file (auto injected with `template`), which allows the file to be individually cached. This is recommended when there is a lot of shared CSS.
 
-  CSS inside async components will remain inlined as JavaScript strings and handled by `vue-style-loader`.
+  CSS inside async components will remain inlined as JavaScript strings và handled by `vue-style-loader`.
 
 ## Cho phép bóc tách CSS
 

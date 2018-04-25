@@ -1,8 +1,8 @@
 # Quản lý thẻ Head
 
-Similar to asset injection, head management follows the same idea: we can dynamically attach data to the render `context` in a component's lifecycle, and then interpolate those data in `template`.
+Similar to asset injection, head management follows the same idea: we can dynamically attach data to the render `context` in a component's lifecycle, và then interpolate those data in `template`.
 
-> In version 2.3.2+, you can directly access the SSR context in a component as `this.$ssrContext`. In older versions you'd have to manually inject the SSR context by passing it to `createApp()` and expose it on the root instance's `$options` - child components can then access it via `this.$root.$options.ssrContext`.
+> In phiên bản 2.3.2+, you can directly access the SSR context in a component as `this.$ssrContext`. In older phiên bản you'd have to manually inject the SSR context by passing it to `createApp()` và expose it on the root instance's `$options` - child components can then access it via `this.$root.$options.ssrContext`.
 
 We can write a simple mixin to perform title management:
 
@@ -65,8 +65,7 @@ export default {
   }
 }
 ```
-
-And inside the template passed to bundle renderer:
+ và inside the template passed to bundle renderer:
 
 ``` html
 <html>

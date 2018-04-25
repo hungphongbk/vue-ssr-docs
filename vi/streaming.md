@@ -1,6 +1,6 @@
 # Streaming
 
-`vue-server-renderer` supports stream rendering out of the box, for both the base renderer and the bundle renderer. All you need to do is use `renderToStream` instead of `renderToString`:
+`vue-server-renderer` supports stream rendering out of the box, for both the base renderer và the bundle renderer. All you need to do is use `renderToStream` instead of `renderToString`:
 
 ``` js
 const stream = renderer.renderToStream(context)
@@ -26,7 +26,7 @@ stream.on('error', err => {
 
 ## Chú ý quan trọng
 
-In stream rendering mode, data is emitted as soon as possible when the renderer traverses the Virtual DOM tree. This means we can get an earlier "first chunk" and start sending it to the client faster.
+In stream rendering mode, data is emitted as soon as possible when the renderer traverses the Virtual DOM tree. This means we can get an earlier "first chunk" và start sending it to the client faster.
 
 However, when the first data chunk is emitted, the child components may not even be instantiated yet, neither will their lifecycle hooks get called. This means if the child components need to attach data to the render context in their lifecycle hooks, these data will not be available when the stream starts. Since a lot of the context information (like head information or inlined critical CSS) needs to appear before the application markup, we essentially have to wait until the stream to complete before we can start making use of these context data.
 

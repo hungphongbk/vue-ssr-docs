@@ -1,10 +1,10 @@
 # Lưu trữ bộ nhớ đệm
 
-Although Vue's SSR is quite fast, it can't match the performance of pure string-based templating due to the cost of creating component instances and Virtual DOM nodes. In cases where SSR performance is critical, wisely leveraging caching strategies can greatly improve response time and reduce server load.
+Although Vue's SSR is quite fast, it can't match the performance of pure string-based templating due to the cost of creating component instances và Virtual DOM nodes. In cases where SSR performance is critical, wisely leveraging caching strategies can greatly improve response time và reduce server load.
 
 ## Lưu trữ đệm cấp trang
 
-A server-rendered app in most cases relies on external data, so the content is dynamic by nature and cannot be cached for extended periods. However, if the content is not user-specific (i.e. for the same URL it always renders the same content for all users), we can leverage a strategy called [micro-caching](https://www.nginx.com/blog/benefits-of-microcaching-nginx/) to drastically improve our app's capability of handling high traffic.
+A server-rendered app in most cases relies on external data, so the content is dynamic by nature và cannot be cached for extended periods. However, if the content is not user-specific (i.e. for the same URL it always renders the same content for all users), we can leverage a strategy called [micro-caching](https://www.nginx.com/blog/benefits-of-microcaching-nginx/) to drastically improve our app's capability of handling high traffic.
 
 This is usually done at the Nginx layer, but we can also implement it in Node.js:
 
@@ -80,7 +80,7 @@ If the renderer hits a cache for a component during render, it will directly reu
 - It has child components that may rely on global state.
 - It has child components that produces side effects on the render `context`.
 
-Component caching should therefore be applied carefully to address performance bottlenecks. In most cases, you shouldn't and don't need to cache single-instance components. The most common type of components that are suitable for caching are ones repeated in big `v-for` lists. Since these components are usually driven by objects in database collections, they can make use of a simple caching strategy: generate their cache keys using their unique id plus the last updated timestamp:
+Component caching should therefore be applied carefully to address performance bottlenecks. In most cases, you shouldn't và don't need to cache single-instance components. The most common type of components that are suitable for caching are ones repeated in big `v-for` lists. Since these components are usually driven by objects in database collections, they can make use of a simple caching strategy: generate their cache keys using their unique id plus the last updated timestamp:
 
 ``` js
 serverCacheKey: props => props.item.id + '::' + props.item.last_updated

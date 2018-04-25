@@ -1,4 +1,4 @@
-# Basic Usage
+# Hướng dẫn cơ bản
 
 ## Cài đặt
 
@@ -6,34 +6,34 @@
 npm install vue vue-server-renderer --save
 ```
 
-We will be using NPM throughout the guide, but feel free to use [Yarn](https://yarnpkg.com/en/) instead.
+Chúng tôi sử dụng hệ thống quản lý gói NPM xuyên suốt hướng dẫn này, nhưng thay vào đó bạn cũng có thể sử dụng [Yarn](https://yarnpkg.com/en/).
 
 #### Ghi chú
 
-- It's recommended to use Node.js version 6+.
-- `vue-server-renderer` and `vue` must have matching versions.
-- `vue-server-renderer` relies on some Node.js native modules and therefore can only be used in Node.js. We may provide a simpler build that can be run in other JavaScript runtimes in the future.
+- Khuyến khích việc sử dụng Node.js phiên bản 6+.
+- `vue-server-renderer` và `vue` phải có cùng phiên bản.
+- `vue-server-renderer` relies on some Node.js native modules và therefore can only be used in Node.js. We may provide a simpler build that can be run in other JavaScript runtimes in the future.
 
 ## Render một đối tượng Vue
 
 ``` js
-// Step 1: Create a Vue instance
+// Bước 1: Tạo một đối tượng Vue
 const Vue = require('vue')
 const app = new Vue({
-  template: `<div>Hello World</div>`
+  template: `<div>Xin chào thế giới</div>`
 })
 
-// Step 2: Create a renderer
+// Bước 2: Tạo một đối tượng renderer
 const renderer = require('vue-server-renderer').createRenderer()
 
-// Step 3: Render the Vue instance to HTML
+// Bước 3: Render đối tượng Vue thành chuỗi HTML
 renderer.renderToString(app, (err, html) => {
   if (err) throw err
   console.log(html)
-  // => <div data-server-rendered="true">Hello World</div>
+  // => <div data-server-rendered="true">Xin chào thế giới</div>
 })
 
-// in 2.5.0+, returns a Promise if no callback is passed:
+// Trong phiên bản 2.5.0+, trả về một Promise nếu không có hàm callback nào được truyền vào:
 renderer.renderToString(app).then(html => {
   console.log(html)
 }).catch(err => {
@@ -43,7 +43,7 @@ renderer.renderToString(app).then(html => {
 
 ## Tích hợp với Server
 
-It is pretty straightforward when used inside a Node.js server, for example [Express](https://expressjs.com/):
+Sử dụng Vue SSR với server thuần Node.js cũng rất đơn giản, ví dụ như [Express](https://expressjs.com/):
 
 ``` bash
 npm install express --save
@@ -59,7 +59,7 @@ server.get('*', (req, res) => {
     data: {
       url: req.url
     },
-    template: `<div>The visited URL is: {{ url }}</div>`
+    template: `<div>URL bạn đang truy cập là: {{ url }}</div>`
   })
 
   renderer.renderToString(app, (err, html) => {
@@ -70,7 +70,7 @@ server.get('*', (req, res) => {
     res.end(`
       <!DOCTYPE html>
       <html lang="en">
-        <head><title>Hello</title></head>
+        <head><title>Xin chào</title></head>
         <body>${html}</body>
       </html>
     `)
@@ -82,7 +82,7 @@ server.listen(8080)
 
 ## Sử dụng template trang
 
-When you render a Vue app, the renderer only generates the markup of the app. In the example we had to wrap the output with an extra HTML page shell.
+Khi bạn render một ứng dụng Vue, đối tượng renderer sẽ chỉ tạo ra chuỗi kết xuất HTML cho ứng dụng. Trong ví dụ dưới đây chúng ta cần bao bọc kết xuất với một khung sườn HTML để tạo nên một nội dung trang HTML hoàn chỉnh.
 
 To simplify this, you can directly provide a page template when creating the renderer. Most of the time we will put the page template in its own file, e.g. `index.template.html`:
 
@@ -96,9 +96,9 @@ To simplify this, you can directly provide a page template when creating the ren
 </html>
 ```
 
-Notice the `<!--vue-ssr-outlet-->` comment -- this is where your app's markup will be injected.
+Lưu ý đến comment `<!--vue-ssr-outlet-->` -- bắt buộc phải có comment này trong template bởi đây sẽ là nơi kết xuất HTML của renderer được chèn vào.
 
-We can then read and pass the file to the Vue renderer:
+Chúng ta có thể đọc và truyền nội dung tệp vào đối tượng Vue renderer như sau:
 
 ``` js
 const renderer = createRenderer({
@@ -146,12 +146,12 @@ renderer.renderToString(app, context, (err, html) => {
 })
 ```
 
-The `context` object can also be shared with the Vue app instance, allowing components to dynamically register data for template interpolation.
+The `context` object can also be shared with the ứng dụng Vue instance, allowing components to dynamically register data for template interpolation.
 
 In addition, the template supports some advanced features such as:
 
 - Auto injection of critical CSS when using `*.vue` components;
-- Auto injection of asset links and resource hints when using `clientManifest`;
-- Auto injection and XSS prevention when embedding Vuex state for client-side hydration.
+- Auto injection of asset links và resource hints when using `clientManifest`;
+- Auto injection và XSS prevention when embedding Vuex state for client-side hydration.
 
 We will discuss these when we introduce the associated concepts later in the guide.

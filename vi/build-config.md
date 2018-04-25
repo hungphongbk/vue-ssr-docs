@@ -1,6 +1,6 @@
 # Cấu hình build
 
-We will assume you already know how to configure webpack for a client-only project. The config for an SSR project will be largely similar, but we suggest breaking the config into three files: *base*, *client* and *server*. The base config contains config shared for both environments, such as output path, aliases, and loaders. The server config and client config can simply extend the base config using [webpack-merge](https://github.com/survivejs/webpack-merge).
+We will assume you already know how to configure webpack for a client-only project. The config for an SSR project will be largely similar, but we suggest breaking the config into three files: *base*, *client* và *server*. The base config contains config shared for both environments, such as output path, aliases, và loaders. The server config và client config can simply extend the base config using [webpack-merge](https://github.com/survivejs/webpack-merge).
 
 ## Cấu hình Server
 
@@ -17,7 +17,7 @@ module.exports = merge(baseConfig, {
   entry: '/path/to/entry-server.js',
 
   // This allows webpack to handle dynamic imports in a Node-appropriate
-  // fashion, and also tells `vue-loader` to emit server-oriented code when
+  // fashion, và also tells `vue-loader` to emit server-oriented code when
   // compiling Vue components.
   target: 'node',
 
@@ -32,7 +32,7 @@ module.exports = merge(baseConfig, {
   // https://webpack.js.org/configuration/externals/#function
   // https://github.com/liady/webpack-node-externals
   // Externalize app dependencies. This makes the server build much faster
-  // and generates a smaller bundle file.
+  // và generates a smaller bundle file.
   externals: nodeExternals({
     // do not externalize dependencies that need to be processed by webpack.
     // you can add more file types here e.g. raw *.vue files
@@ -72,15 +72,15 @@ The client config can remain largely the same with the base config. Obviously yo
 
 ### Tạo `clientManifest`
 
-> requires version 2.3.0+
+> requires phiên bản 2.3.0+
 
-In addition to the server bundle, we can also generate a client build manifest. With the client manifest and the server bundle, the renderer now has information of both the server *and* client builds, so it can automatically infer and inject [preload / prefetch directives](https://css-tricks.com/prefetching-preloading-prebrowsing/) and css links / script tags into the rendered HTML.
+In addition to the server bundle, we can also generate a client build manifest. With the client manifest và the server bundle, the renderer now has information of both the server *and* client builds, so it can automatically infer và inject [preload / prefetch directives](https://css-tricks.com/prefetching-preloading-prebrowsing/) và css links / script tags into the rendered HTML.
 
 The benefits is two-fold:
 
 1. It can replace `html-webpack-plugin` for injecting the correct asset URLs when there are hashes in your generated filenames.
 
-2. When rendering a bundle that leverages webpack's on-demand code splitting features, we can ensure the optimal chunks are preloaded / prefetched, and also intelligently inject `<script>` tags for needed async chunks to avoid waterfall requests on the client, thus improving TTI (time-to-interactive).
+2. When rendering a bundle that leverages webpack's on-demand code splitting features, we can ensure the optimal chunks are preloaded / prefetched, và also intelligently inject `<script>` tags for needed async chunks to avoid waterfall requests on the client, thus improving TTI (time-to-interactive).
 
 To make use of the client manifest, the client config would look something like this:
 
@@ -148,7 +148,7 @@ With this setup, your server-rendered HTML for a build with code-splitting will 
 
 ### Chèn tài nguyên tĩnh thủ công
 
-By default, asset injection is automatic when you provide the `template` render option. But sometimes you might want finer-grained control over how assets are injected into the template, or maybe you are not using a template at all. In such a case, you can pass `inject: false` when creating the renderer and manually perform asset injection.
+By default, asset injection is automatic when you provide the `template` render option. But sometimes you might want finer-grained control over how assets are injected into the template, or maybe you are not using a template at all. In such a case, you can pass `inject: false` when creating the renderer và manually perform asset injection.
 
 In the `renderToString` callback, the `context` object you passed in will expose the following methods:
 
@@ -160,9 +160,9 @@ In the `renderToString` callback, the `context` object you passed in will expose
 
 - `context.renderState(options?: Object)`
 
-  This method serializes `context.state` and returns an inline script that embeds the state as `window.__INITIAL_STATE__`.
+  This method serializes `context.state` và returns an inline script that embeds the state as `window.__INITIAL_STATE__`.
 
-  The context state key and window state key can both be customized by passing an options object:
+  The context state key và window state key can both be customized by passing an options object:
 
   ``` js
   context.renderState({
@@ -185,7 +185,7 @@ In the `renderToString` callback, the `context` object you passed in will expose
 
   This method returns the `<link rel="preload/prefetch">` resource hints needed for the current rendered page. By default it will:
 
-  - Preload the JavaScript and CSS files needed by the page
+  - Preload the JavaScript và CSS files needed by the page
   - Prefetch async JavaScript chunks that might be needed later
 
   Preloaded files can be further customized with the [`shouldPreload`](./api.md#shouldpreload) option.
