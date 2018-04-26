@@ -1,6 +1,6 @@
 # Cấu hình build
 
-We will assume you already know how to configure webpack for a client-only project. The config for an SSR project will be largely similar, but we suggest breaking the config into three files: *base*, *client* và *server*. The base config contains config shared for both environments, such as output path, aliases, và loaders. The server config và client config can simply extend the base config using [webpack-merge](https://github.com/survivejs/webpack-merge).
+Trong phần này chúng tôi xem như bạn đã biết cách thức cấu hình webpack cho một dự án thuần client. Việc cấu hình cho một dự án SSR cũng gần tương tự, tuy nhiên chúng tôi đề xuất một cách thức cấu hình đó là phân tách thành ba tệp riêng biệt: *base*, *client* và *server*. Đoạn cấu hình *base* chia sẻ cấu hình dùng chung cho cả hai môi trường, ví dụ như đường dẫn lưu trữ bundle kết xuất, alias, và loader. Cấu hình server và client sẽ thừa kế và mở rộng đoạn cấu hình *base* với [webpack-merge](https://github.com/survivejs/webpack-merge).
 
 ## Cấu hình Server
 
@@ -49,16 +49,16 @@ module.exports = merge(baseConfig, {
 })
 ```
 
-After `vue-ssr-server-bundle.json` has been generated, simply pass the file path to `createBundleRenderer`:
+Sau khi `vue-ssr-server-bundle.json` được tạo ra, truyền đường dẫn của tệp này vào `createBundleRenderer` như dưới đây:
 
 ``` js
 const { createBundleRenderer } = require('vue-server-renderer')
 const renderer = createBundleRenderer('/path/to/vue-ssr-server-bundle.json', {
-  // ...other renderer options
+  // ...các tùy chọn renderer khác
 })
 ```
 
-Alternatively, you can also pass the bundle as an Object to `createBundleRenderer`. This is useful for hot-reload during development - see the HackerNews demo for a [reference setup](https://github.com/vuejs/vue-hackernews-2.0/blob/master/build/setup-dev-server.js).
+Hơn thế nữa, bạn có thể truyền tệp bundle vào hàm `createBundleRenderer` như là một Object. This is useful for hot-reload during development - see the HackerNews demo for a [reference setup](https://github.com/vuejs/vue-hackernews-2.0/blob/master/build/setup-dev-server.js).
 
 ### Cẩn thận với tùy chọn `externals`
 

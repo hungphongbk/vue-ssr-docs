@@ -56,7 +56,7 @@ module.exports = {
 
 Note that the above config only applies to styles in `*.vue` files, but you can use `<style src="./foo.css">` to import external CSS into Vue components.
 
-If you wish to import CSS from JavaScript, e.g. `import 'foo.css'`, you need to configure the appropriate loaders:
+If you wish to import CSS from JavaScript, e.g. `import 'foo.css'`, you need to cấu hình the appropriate loaders:
 
 ``` js
 module.exports = {

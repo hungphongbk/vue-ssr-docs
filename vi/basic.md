@@ -84,8 +84,6 @@ server.listen(8080)
 
 Khi bạn render một ứng dụng Vue, đối tượng renderer sẽ chỉ tạo ra chuỗi kết xuất HTML cho ứng dụng. Trong ví dụ dưới đây chúng ta cần bao bọc kết xuất với một khung sườn HTML để tạo nên một nội dung trang HTML hoàn chỉnh.
 
-To simplify this, you can directly provide a page template when creating the renderer. Most of the time we will put the page template in its own file, e.g. `index.template.html`:
-
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -106,21 +104,23 @@ const renderer = createRenderer({
 })
 
 renderer.renderToString(app, (err, html) => {
-  console.log(html) // will be the full page with app content injected.
+  console.log(html) // biến `html` chứa toàn bộ nội dung HTML hoàn chỉnh với kết xuất của ứng dụng được chèn vào.
 })
 ```
 
 ### Template Interpolation
 
-The template also supports simple interpolation. Given the following template:
+> **Ghi chú**: trong Toán học, *"interpolation"* được dịch là *"phép nội suy"*. Tuy nhiên nội suy trong toán học lại khá khác biệt về định nghĩa từ *"interpolation"* trong lập trình, nó vốn dùng để chỉ một kĩ thuật tạo chuỗi bằng cách nhúng trực tiếp biến dữ liệu vào trong chuỗi. Vì sự khác biệt đó, xuyên suốt tài liệu này chúng tôi cũng sẽ giữ nguyên từ *"interpolation"*
+
+Template cho phép hỗ trợ kĩ thuật interpolation khá đơn giản. Ví dụ như một template HTML phía dưới
 
 ``` html
 <html>
   <head>
-    <!-- use double mustache for HTML-escaped interpolation -->
+    <!-- sử dụng kí pháp ngoặc nhọn kép (double-mustache) cho phép interpolation với dữ liệu HTML-escaped -->
     <title>{{ title }}</title>
 
-    <!-- use triple mustache for non-HTML-escaped interpolation -->
+    <!-- sử dụng kí pháp ngoặc nhọn ba (triple-mustache) cho phép interpolation với dữ liệu không-HTML-escaped -->
     {{{ meta }}}
   </head>
   <body>
@@ -129,7 +129,7 @@ The template also supports simple interpolation. Given the following template:
 </html>
 ```
 
-We can provide interpolation data by passing a "render context object" as the second argument to `renderToString`:
+Chúng ta cung cấp dữ liệu nhằm cho phép interpolation một template bằng cách truyền vào một "đối tượng render context" tại tham số thứ hai trong hàm `renderToString`:
 
 ``` js
 const context = {
@@ -141,17 +141,17 @@ const context = {
 }
 
 renderer.renderToString(app, context, (err, html) => {
-  // page title will be "Hello"
-  // with meta tags injected
+  // Tiêu đề trang sẽ là "Hello"
+  // với các thẻ `meta` được truyền vào
 })
 ```
 
-The `context` object can also be shared with the ứng dụng Vue instance, allowing components to dynamically register data for template interpolation.
+Đối tượng `context` cũng có thể được chia sẻ với đối tượng ứng dụng Vue, cho phép các components có thể đăng kí động dữ liệu cho template interpolation.
 
-In addition, the template supports some advanced features such as:
+Ngoài ra, template còn hỗ trợ một số tính năng cao cấp như:
 
-- Auto injection of critical CSS when using `*.vue` components;
-- Auto injection of asset links và resource hints when using `clientManifest`;
-- Auto injection và XSS prevention when embedding Vuex state for client-side hydration.
+- Tự động chèn vào các đoạn CSS tối quan trọng khi sử dụng `*.vue` component;
+- Tự động chèn vào các đường dẫn và gợi ý tài nguyên tĩnh (resource hints) khi sử dụng `clientManifest`;
+- Chống tấn công XSS khi nhúng trực tiếp đối tượng Vuex state vào kết xuất trong quá trình client-side hydration.
 
 We will discuss these when we introduce the associated concepts later in the guide.
